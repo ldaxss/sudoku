@@ -1,0 +1,92 @@
+
+
+<div class="container">
+  <h1>Введіть судоку</h1>
+  <%= form_with url: sudoku_index_path, method: :post, local: true, data: { turbo: false } do |form| %>
+    <table>
+      <% 9.times do |row| %>
+        <tr>
+          <% 9.times do |col| %>
+            <td>
+              <%= form.number_field "sudoku[#{row}][#{col}]", min: 0, max: 9, class: "sudoku-input", value: @solution[row][col] %>
+            </td>
+          <% end %>
+        </tr>
+      <% end %>
+    </table>
+    <div class="button-panel">
+      <%= button_tag "Рандом", type: "button", id: "randomize" %>
+      <%= form.submit "Вирішити", name: "solve", class: "form-button" %>
+      <%= form.submit "Перевірити", name: "check", class: "form-button" %>
+    </div>
+  <% end %>
+
+  <% if @is_solved.present? %>
+
+    <% if @is_solved == true %>
+      <p>Судоку вирішено вірно!</p>
+    <% end %>
+  <% end %>
+
+  <% if @cant_solve.present? %>
+    <p>Немає рішень!</p>
+  <% end %>
+</div>
+
+
+<style>
+
+    .container {
+        text-align: center;
+        margin: auto;
+        padding: 20px;
+        background-color: #f2f2f2;
+    }
+
+    h1 {
+        font-size: 24px;
+        margin-bottom: 20px;
+        color: #444444;
+    }
+
+    table {
+        margin-bottom: 20px;
+        border-collapse: collapse;
+    }
+
+    td {
+        padding: 5px;
+    }
+
+    .sudoku-input {
+        width: 30px;
+        height: 30px;
+        text-align: center;
+        font-size: 16px;
+        border: 1px solid #cccccc;
+        background-color: #f9f9f9;
+        color: #444444;
+    }
+
+    .button-panel {
+        margin-bottom: 20px;
+    }
+
+    .form-button {
+        margin-right: 10px;
+        background-color: #666666;
+        color: #ffffff;
+        border: none;
+        padding: 8px 16px;
+        font-size: 14px;
+        text-transform: uppercase;
+        cursor: pointer;
+    }
+
+    p {
+        margin-bottom: 10px;
+        font-size: 18px;
+        color: #444444;
+    }
+
+</style>
